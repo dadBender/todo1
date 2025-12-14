@@ -3,7 +3,7 @@ let state = {
     rating: 100,
     categories: [],
     todos: [],
-    activePage: 'home',
+    activePage: 'home', // home, categories, focus
     activeTimerId: null
 };
 
@@ -102,21 +102,30 @@ function setActivePage(page) {
     state.activePage = page;
     
     const homePage = document.getElementById('homePage');
+    const categoriesPage = document.getElementById('categoriesPage');
     const focusPage = document.getElementById('focusPage');
     const pageTitle = document.getElementById('pageTitle');
     const navItems = document.querySelectorAll('.nav-item');
     const navSlider = document.getElementById('navSlider');
     
+    // Скрыть все страницы
+    if (homePage) homePage.classList.add('hidden');
+    if (categoriesPage) categoriesPage.classList.add('hidden');
+    if (focusPage) focusPage.classList.add('hidden');
+    
+    // Показать нужную страницу и обновить навигацию
     if (page === 'home') {
-        homePage.classList.remove('hidden');
-        focusPage.classList.add('hidden');
+        if (homePage) homePage.classList.remove('hidden');
         if (pageTitle) pageTitle.textContent = 'Главная';
-        navSlider.style.left = '4px';
-    } else {
-        homePage.classList.add('hidden');
-        focusPage.classList.remove('hidden');
+        if (navSlider) navSlider.style.left = '4px';
+    } else if (page === 'categories') {
+        if (categoriesPage) categoriesPage.classList.remove('hidden');
+        if (pageTitle) pageTitle.textContent = 'Категории';
+        if (navSlider) navSlider.style.left = 'calc(33.333% + 2px)';
+    } else if (page === 'focus') {
+        if (focusPage) focusPage.classList.remove('hidden');
         if (pageTitle) pageTitle.textContent = 'Фокус';
-        navSlider.style.left = 'calc(50% + 2px)';
+        if (navSlider) navSlider.style.left = 'calc(66.666% + 2px)';
     }
     
     navItems.forEach(item => {
